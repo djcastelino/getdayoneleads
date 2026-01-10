@@ -51,9 +51,9 @@ const FALLBACK_LEADS: LeadsResponse = {
       sector: "Janitorial",
       city: "Raleigh",
       timeline: buildTimeline(new Date().toISOString()),
-      contactName: "Sarah Jenkins",
+      contactName: "Mike Stevenson",
       contactPhone: "(919) 555-0123",
-      contactEmail: "s.jenkins@ncdot.gov",
+      contactEmail: "contracts@blueskyfacilities.com",
     },
     {
       awardId: "SAMPLE-002",
@@ -68,9 +68,9 @@ const FALLBACK_LEADS: LeadsResponse = {
       sector: "Construction",
       city: "Cary",
       timeline: buildTimeline(new Date().toISOString()),
-      contactName: "David Chen",
+      contactName: "Sarah Chen",
       contactPhone: "(919) 555-0888",
-      contactEmail: "dchen@wcpss.net",
+      contactEmail: "bids@northbuild.com",
     },
     {
       awardId: "SAMPLE-003",
@@ -87,7 +87,7 @@ const FALLBACK_LEADS: LeadsResponse = {
       timeline: buildTimeline(new Date().toISOString()),
       contactName: "Marcus Thorne",
       contactPhone: "(704) 555-0199",
-      contactEmail: "mthorne@cha-nc.org",
+      contactEmail: "mthorne@securelinesys.com",
     },
   ],
 };

@@ -85,10 +85,11 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
 
                 {lead.contactName && (
                   <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-4">
-                    <p className="mb-2 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Point of Contact</p>
+                    <p className="mb-2 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Prime Contractor POC</p>
                     <div className="flex items-center justify-between">
                       <div>
                         <p className="font-semibold text-slate-900 dark:text-white">{lead.contactName}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{lead.winner}</p>
                         <div className="mt-1 flex flex-col gap-1 text-xs text-slate-600 dark:text-slate-300">
                           {lead.contactEmail && (
                             <span className="flex items-center gap-1.5">
