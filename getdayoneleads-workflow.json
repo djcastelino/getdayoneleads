@@ -1,0 +1,130 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "nc-leads",
+        "responseMode": "responseNode"
+      },
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "id": "webhook-trigger"
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://api.usaspending.gov/api/v2/search/spending_by_award/",
+        "jsonParameters": true,
+        "body": {
+          "filters": {
+            "time_period": [
+              {
+                "start_date": "={{ $now.minus({ days: 1 }).toFormat('yyyy-LL-dd') }}",
+                "end_date": "={{ $now.toFormat('yyyy-LL-dd') }}"
+              }
+            ],
+            "place_of_performance_locations": [
+              {
+                "country": "USA",
+                "state": "NC"
+              }
+            ],
+            "naics_codes": [
+              "561720",
+              "23"
+            ],
+            "award_type_codes": [
+              "A",
+              "B",
+              "C",
+              "D"
+            ],
+            "award_amounts": [
+              {
+                "lower_bound": 10000
+              }
+            ]
+          },
+          "fields": [
+            "Award ID",
+            "Recipient Name",
+            "Total Obligated Amount",
+            "Description",
+            "Place of Performance City",
+            "Period of Performance Current End Date",
+            "Awarding Agency Name",
+            "Last Modified Date",
+            "NAICS Code"
+          ],
+          "limit": 25,
+          "page": 1,
+          "sort": "Last Modified Date",
+          "order": "desc"
+        }
+      },
+      "name": "USA Spending API",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [680, 300],
+      "id": "usa-spending-api"
+    },
+    {
+      "parameters": {
+        "jsCode": "const [{ json }] = $input.all();\nconst awards = json.results ?? [];\n\nconst formatter = new Intl.NumberFormat('en-US', {\n  style: 'currency',\n  currency: 'USD',\n  maximumFractionDigits: 0\n});\n\nconst leads = awards.map((award) => {\n  const amount = typeof award['Total Obligated Amount'] === 'number'\n    ? formatter.format(award['Total Obligated Amount'])\n    : 'Pending valuation';\n\n  return {\n    awardId: award['Award ID'] ?? 'Unassigned',\n    project: award['Description'] ?? 'No description provided',\n    location: award['Place of Performance City']\n      ? `${award['Place of Performance City']}, NC`\n      : 'North Carolina',\n    value: amount,\n    winner: award['Recipient Name'] ?? 'Not published',\n    agency: award['Awarding Agency Name'] ?? 'Unknown agency',\n    naics: award['NAICS Code'] ?? 'N/A',\n    lastModified: award['Last Modified Date'] ?? 'N/A'\n  };\n});\n\nreturn [{ json: { count: leads.length, leads } }];"
+      },
+      "name": "Format Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300],
+      "id": "format-data"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}"
+      },
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1120, 300],
+      "id": "respond-webhook"
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "USA Spending API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "USA Spending API": {
+      "main": [
+        [
+          {
+            "node": "Format Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Data": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
