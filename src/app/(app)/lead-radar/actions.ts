@@ -27,7 +27,7 @@ export async function createCheckoutSession(input: CheckoutInput): Promise<{ url
   }
 
   const stripe = new Stripe(secretKey, {
-    apiVersion: "2024-11-20",
+    apiVersion: "2024-06-20",
   });
 
   const successUrl = new URL("/lead-radar?upgrade=success", appUrl).toString();
