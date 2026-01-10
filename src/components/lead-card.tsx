@@ -45,9 +45,14 @@ export function LeadCard({ lead, onOpen, onQuickAction }: LeadCardProps) {
               </div>
               <div className="text-right">
                 <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-500">Agency</p>
-                <p className="max-w-[140px] overflow-hidden text-ellipsis text-sm text-slate-700 dark:text-white/80">
-                  {lead.agency}
-                </p>
+                <div className="relative">
+                  <p className="max-w-[140px] overflow-hidden text-ellipsis text-sm text-slate-700 dark:text-white/80 blur-[2px] select-none">
+                     {lead.agency}
+                  </p>
+                  <p className="absolute inset-0 flex items-center justify-end text-[10px] font-semibold text-slate-400 dark:text-slate-500/80">
+                     LOCKED
+                  </p>
+                </div>
               </div>
             </div>
           </div>

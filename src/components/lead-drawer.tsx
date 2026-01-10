@@ -68,11 +68,15 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                   </div>
                   <div>
                     <dt>Agency</dt>
-                    <dd className="text-sm text-slate-700 dark:text-slate-200">{lead.agency}</dd>
+                    <dd className="blur-sm select-none text-sm text-slate-700 dark:text-slate-200">
+                       Hidden Agency
+                    </dd>
                   </div>
                   <div>
                     <dt>Recipient</dt>
-                    <dd className="text-sm text-slate-700 dark:text-slate-200">{lead.winner}</dd>
+                    <dd className="blur-sm select-none text-sm text-slate-700 dark:text-slate-200">
+                       Hidden Contractor
+                    </dd>
                   </div>
                   <div>
                     <dt>Last Updated</dt>
