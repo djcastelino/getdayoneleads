@@ -144,49 +144,6 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                   ))}
                 </ul>
               </section>
-
-              <section className="space-y-4">
-                <h3 className="text-xs uppercase tracking-[0.2rem] text-slate-500 dark:text-slate-400">Outreach</h3>
-                <div className="flex flex-col gap-3">
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-teal-500 to-teal-400 px-4 py-3 text-sm font-semibold text-white dark:text-slate-950 shadow-lg transition hover:brightness-105"
-                    onClick={() => onAction?.(lead, "intro-email")}
-                  >
-                    <MailPlus size={16} /> Launch Intro Email
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-4 py-3 text-sm font-semibold text-slate-700 dark:text-white transition hover:border-orange-400/60 hover:bg-orange-50 dark:hover:bg-orange-500/10"
-                    onClick={() => onAction?.(lead, "schedule-call")}
-                  >
-                    <Phone size={16} /> Schedule Call
-                  </button>
-                </div>
-              </section>
-
-              <section className="space-y-3">
-                <h3 className="text-xs uppercase tracking-[0.2rem] text-slate-400">Timeline</h3>
-                <ol className="space-y-3">
-                  {lead.timeline.map((milestone) => (
-                    <li key={milestone.label} className="flex items-start gap-3">
-                      <span
-                        className={`mt-1 h-2.5 w-2.5 rounded-full ${
-                          milestone.status === "past"
-                            ? "bg-slate-500"
-                            : milestone.status === "current"
-                              ? "bg-orange-300"
-                              : "bg-teal-300"
-                        }`}
-                      />
-                      <div>
-                        <p className="text-sm font-medium text-white">{milestone.label}</p>
-                        <p className="text-xs text-slate-400">{new Date(milestone.date).toLocaleString()}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ol>
-              </section>
             </div>
           ) : (
             <div className="mt-20 text-center text-sm text-slate-400">Select a lead card to see details.</div>
