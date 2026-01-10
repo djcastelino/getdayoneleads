@@ -84,34 +84,41 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                 </dl>
 
                 {lead.contactName && (
-                  <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-4">
+                  <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-4 relative">
                     <p className="mb-2 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Prime Contractor POC</p>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between blur-sm select-none opacity-50">
                       <div>
                         <p className="font-semibold text-slate-900 dark:text-white">{lead.contactName}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{lead.winner}</p>
                         <div className="mt-1 flex flex-col gap-1 text-xs text-slate-600 dark:text-slate-300">
-                          {lead.contactEmail && (
-                            <span className="flex items-center gap-1.5">
-                              <MailPlus size={12} className="text-teal-500" />
-                              {lead.contactEmail}
-                            </span>
-                          )}
-                          {lead.contactPhone && (
-                            <span className="flex items-center gap-1.5">
-                              <Phone size={12} className="text-teal-500" />
-                              {lead.contactPhone}
-                            </span>
-                          )}
+                          <span className="flex items-center gap-1.5">
+                            <MailPlus size={12} className="text-teal-500" />
+                            {lead.contactEmail}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Phone size={12} className="text-teal-500" />
+                            {lead.contactPhone}
+                          </span>
                         </div>
                       </div>
-                      <button
-                         type="button"
-                         className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white shadow-lg transition hover:bg-teal-400"
-                         title="Call Now"
-                      >
+                      <button type="button" className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white shadow-lg">
                          <Phone size={14} />
                       </button>
+                    </div>
+                    
+                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/10 backdrop-blur-[2px]">
+                       <p className="text-xs font-semibold text-slate-900 dark:text-white mb-2">Contact Details Locked</p>
+                       <button 
+                         type="button" 
+                         onClick={() => {
+                            // Scroll to stripe section or open modal
+                            document.getElementById('alerts')?.scrollIntoView({ behavior: 'smooth' });
+                            onClose();
+                         }}
+                         className="rounded-full bg-slate-900 dark:bg-white px-4 py-1.5 text-xs font-bold text-white dark:text-slate-900 shadow-xl transition hover:scale-105"
+                       >
+                         Unlock Now
+                       </button>
                     </div>
                   </div>
                 )}
