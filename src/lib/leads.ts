@@ -9,6 +9,9 @@ export interface RawLead {
   agency: string;
   naics: string;
   lastModified: string;
+  contactName?: string;
+  contactPhone?: string;
+  contactEmail?: string;
 }
 
 export interface Lead extends RawLead {
@@ -48,6 +51,9 @@ const FALLBACK_LEADS: LeadsResponse = {
       sector: "Janitorial",
       city: "Raleigh",
       timeline: buildTimeline(new Date().toISOString()),
+      contactName: "Sarah Jenkins",
+      contactPhone: "(919) 555-0123",
+      contactEmail: "s.jenkins@ncdot.gov",
     },
     {
       awardId: "SAMPLE-002",
@@ -62,6 +68,9 @@ const FALLBACK_LEADS: LeadsResponse = {
       sector: "Construction",
       city: "Cary",
       timeline: buildTimeline(new Date().toISOString()),
+      contactName: "David Chen",
+      contactPhone: "(919) 555-0888",
+      contactEmail: "dchen@wcpss.net",
     },
     {
       awardId: "SAMPLE-003",
@@ -76,6 +85,9 @@ const FALLBACK_LEADS: LeadsResponse = {
       sector: "Fencing",
       city: "Charlotte",
       timeline: buildTimeline(new Date().toISOString()),
+      contactName: "Marcus Thorne",
+      contactPhone: "(704) 555-0199",
+      contactEmail: "mthorne@cha-nc.org",
     },
   ],
 };
@@ -158,6 +170,9 @@ function normalizeLead(raw: Partial<RawLead>): Lead {
   const agency = raw.agency ?? "Unknown agency";
   const naics = raw.naics ?? "N/A";
   const lastModified = raw.lastModified ?? new Date().toISOString();
+  const contactName = raw.contactName;
+  const contactPhone = raw.contactPhone;
+  const contactEmail = raw.contactEmail;
 
   return {
     awardId,
@@ -168,6 +183,9 @@ function normalizeLead(raw: Partial<RawLead>): Lead {
     agency,
     naics,
     lastModified,
+    contactName,
+    contactPhone,
+    contactEmail,
     amount: parseAmount(value),
     sector: mapSector(naics),
     city: extractCity(location),

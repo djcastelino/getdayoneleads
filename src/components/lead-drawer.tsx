@@ -82,6 +82,38 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                     </dd>
                   </div>
                 </dl>
+
+                {lead.contactName && (
+                  <div className="mt-4 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-4">
+                    <p className="mb-2 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Point of Contact</p>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="font-semibold text-slate-900 dark:text-white">{lead.contactName}</p>
+                        <div className="mt-1 flex flex-col gap-1 text-xs text-slate-600 dark:text-slate-300">
+                          {lead.contactEmail && (
+                            <span className="flex items-center gap-1.5">
+                              <MailPlus size={12} className="text-teal-500" />
+                              {lead.contactEmail}
+                            </span>
+                          )}
+                          {lead.contactPhone && (
+                            <span className="flex items-center gap-1.5">
+                              <Phone size={12} className="text-teal-500" />
+                              {lead.contactPhone}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                         type="button"
+                         className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white shadow-lg transition hover:bg-teal-400"
+                         title="Call Now"
+                      >
+                         <Phone size={14} />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </section>
 
               <section className="space-y-3">
@@ -98,7 +130,7 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                         className="rounded-full border border-teal-500/30 dark:border-teal-400/60 bg-teal-50 dark:bg-teal-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal-700 dark:text-teal-100 transition hover:bg-teal-100 dark:hover:bg-teal-500/20"
                         onClick={() => onAction?.(lead, item.action)}
                       >
-                        Mark
+                        Complete
                       </button>
                     </li>
                   ))}
