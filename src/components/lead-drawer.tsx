@@ -51,8 +51,8 @@ export function LeadDrawer({ lead, isAdmin, open, onClose, onAction }: LeadDrawe
             <div className="mt-8 space-y-8 text-sm text-slate-600 dark:text-slate-200">
               <section className="space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-300">
-                    {lead.awardId}
+                  <span className={`rounded-full border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-300 ${!isAdmin ? 'blur-sm select-none' : ''}`}>
+                    {isAdmin ? lead.awardId : '#####-##'}
                   </span>
                   <span className="rounded-full border border-teal-500/30 dark:border-teal-400/50 bg-teal-50 dark:bg-teal-500/10 px-3 py-1 text-xs font-medium text-teal-700 dark:text-teal-200">
                     {lead.sector}

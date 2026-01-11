@@ -29,8 +29,8 @@ export function LeadCard({ lead, isAdmin, onOpen, onQuickAction }: LeadCardProps
         >
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <span className="rounded-full border border-slate-200 dark:border-slate-600 px-3 py-1 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-300">
-                {lead.awardId}
+              <span className={`rounded-full border border-slate-200 dark:border-slate-600 px-3 py-1 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-300 ${!isAdmin ? 'blur-sm select-none' : ''}`}>
+                {isAdmin ? lead.awardId : '#####-##'}
               </span>
               <span className="text-xs font-semibold uppercase tracking-wide text-teal-600 dark:text-teal-200">
                 {lead.city}
