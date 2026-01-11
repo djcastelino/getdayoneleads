@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useOptimistic, useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { loadLeadsAction, logOutreachAction } from "./actions";
 import {
@@ -29,6 +30,9 @@ interface LeadRadarClientProps {
 }
 
 export function LeadRadarClient({ initialData }: LeadRadarClientProps) {
+  const searchParams = useSearchParams();
+  const isAdmin = searchParams.get("admin") === "true";
+
   const [selectedSectors, setSelectedSectors] = useState<SectorKey[]>(TRACKED_SECTORS);
   const [optimisticSectors, setOptimisticSectors] = useOptimistic(selectedSectors, (_, next: SectorKey[]) => next);
   const [activeLeadId, setActiveLeadId] = useState<string | null>(null);
@@ -117,6 +121,7 @@ export function LeadRadarClient({ initialData }: LeadRadarClientProps) {
       <div className="grid gap-8 lg:grid-cols-[minmax(0,_1fr)_360px]" id="timeline">
         <LeadsGrid
           leads={leads}
+          isAdmin={isAdmin}
           isLoading={isLoading && !leads.length}
           onOpenLead={handleOpenLead}
           onQuickAction={handleLogAction}
@@ -129,7 +134,13 @@ export function LeadRadarClient({ initialData }: LeadRadarClientProps) {
         <HotCountyHeatmap data={countySummary} />
       </section>
 
-      <LeadDrawer lead={activeLead} open={Boolean(activeLead)} onClose={handleCloseDrawer} onAction={handleLogAction} />
+      <LeadDrawer 
+        lead={activeLead} 
+        open={Boolean(activeLead)} 
+        isAdmin={isAdmin}
+        onClose={handleCloseDrawer} 
+        onAction={handleLogAction} 
+      />
       <NotifyFab onFilterToggle={handleToggleSector} selectedSectors={selectedSectors} />
     </div>
   );

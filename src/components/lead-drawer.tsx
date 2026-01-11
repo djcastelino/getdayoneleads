@@ -7,12 +7,13 @@ import type { Lead } from "@/lib/leads";
 
 interface LeadDrawerProps {
   lead?: Lead;
+  isAdmin?: boolean;
   open: boolean;
   onClose: () => void;
   onAction?: (lead: Lead, action: "intro-email" | "schedule-call" | "share" | "bookmark") => void;
 }
 
-export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
+export function LeadDrawer({ lead, isAdmin, open, onClose, onAction }: LeadDrawerProps) {
   const checklist = useMemo(
     () => [
       { label: "Call PM", action: "schedule-call" as const },
@@ -68,14 +69,14 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                   </div>
                   <div>
                     <dt>Agency</dt>
-                    <dd className="blur-sm select-none text-sm text-slate-700 dark:text-slate-200">
-                       Hidden Agency
+                    <dd className={`${!isAdmin ? 'blur-sm select-none' : ''} text-sm text-slate-700 dark:text-slate-200`}>
+                       {isAdmin ? lead.agency : 'Hidden Agency'}
                     </dd>
                   </div>
                   <div>
                     <dt>Recipient</dt>
-                    <dd className="blur-sm select-none text-sm text-slate-700 dark:text-slate-200">
-                       Hidden Contractor
+                    <dd className={`${!isAdmin ? 'blur-sm select-none' : ''} text-sm text-slate-700 dark:text-slate-200`}>
+                       {isAdmin ? lead.winner : 'Hidden Contractor'}
                     </dd>
                   </div>
                   <div>
@@ -90,7 +91,7 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                 {lead.contactName && (
                   <div className="mt-4 overflow-hidden rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-white/5 p-4 relative">
                     <p className="mb-2 text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">Prime Contractor POC</p>
-                    <div className="flex items-center justify-between blur-sm select-none opacity-50">
+                    <div className={`flex items-center justify-between ${!isAdmin ? 'blur-sm select-none opacity-50' : ''}`}>
                       <div>
                         <p className="font-semibold text-slate-900 dark:text-white">{lead.contactName}</p>
                         <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">{lead.winner}</p>
@@ -110,20 +111,22 @@ export function LeadDrawer({ lead, open, onClose, onAction }: LeadDrawerProps) {
                       </button>
                     </div>
                     
-                    <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/10 backdrop-blur-[2px]">
-                       <p className="text-xs font-semibold text-slate-900 dark:text-white mb-2">Contact Details Locked</p>
-                       <button 
-                         type="button" 
-                         onClick={() => {
-                            // Scroll to stripe section or open modal
-                            document.getElementById('alerts')?.scrollIntoView({ behavior: 'smooth' });
-                            onClose();
-                         }}
-                         className="rounded-full bg-slate-900 dark:bg-white px-4 py-1.5 text-xs font-bold text-white dark:text-slate-900 shadow-xl transition hover:scale-105"
-                       >
-                         Unlock Now
-                       </button>
-                    </div>
+                    {!isAdmin && (
+                      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/10 backdrop-blur-[2px]">
+                         <p className="text-xs font-semibold text-slate-900 dark:text-white mb-2">Contact Details Locked</p>
+                         <button 
+                           type="button" 
+                           onClick={() => {
+                              // Scroll to stripe section or open modal
+                              document.getElementById('alerts')?.scrollIntoView({ behavior: 'smooth' });
+                              onClose();
+                           }}
+                           className="rounded-full bg-slate-900 dark:bg-white px-4 py-1.5 text-xs font-bold text-white dark:text-slate-900 shadow-xl transition hover:scale-105"
+                         >
+                           Unlock Now
+                         </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </section>

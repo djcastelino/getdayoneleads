@@ -5,12 +5,13 @@ import { LeadCard } from "./lead-card";
 
 interface LeadsGridProps {
   leads: Lead[];
+  isAdmin?: boolean;
   isLoading?: boolean;
   onOpenLead: (lead: Lead) => void;
   onQuickAction: (lead: Lead, action: "intro-email" | "schedule-call" | "share" | "bookmark") => void;
 }
 
-export function LeadsGrid({ leads, isLoading, onOpenLead, onQuickAction }: LeadsGridProps) {
+export function LeadsGrid({ leads, isAdmin, isLoading, onOpenLead, onQuickAction }: LeadsGridProps) {
   return (
     <div className="space-y-4">
       <header className="flex items-center justify-between">
@@ -19,7 +20,7 @@ export function LeadsGrid({ leads, isLoading, onOpenLead, onQuickAction }: Leads
       </header>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {leads.map((lead) => (
-          <LeadCard key={lead.awardId} lead={lead} onOpen={onOpenLead} onQuickAction={onQuickAction} />
+          <LeadCard key={lead.awardId} lead={lead} isAdmin={isAdmin} onOpen={onOpenLead} onQuickAction={onQuickAction} />
         ))}
         {isLoading && <SkeletonCards />}
       </div>

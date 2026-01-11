@@ -7,11 +7,12 @@ import type { Lead } from "@/lib/leads";
 
 interface LeadCardProps {
   lead: Lead;
+  isAdmin?: boolean;
   onOpen: (lead: Lead) => void;
   onQuickAction: (lead: Lead, action: "intro-email" | "schedule-call" | "share" | "bookmark") => void;
 }
 
-export function LeadCard({ lead, onOpen, onQuickAction }: LeadCardProps) {
+export function LeadCard({ lead, isAdmin, onOpen, onQuickAction }: LeadCardProps) {
   const handleAction = useCallback(
     (action: "intro-email" | "schedule-call" | "share" | "bookmark") => {
       onQuickAction(lead, action);
@@ -46,12 +47,14 @@ export function LeadCard({ lead, onOpen, onQuickAction }: LeadCardProps) {
               <div className="text-right">
                 <p className="text-xs uppercase tracking-wider text-slate-500 dark:text-slate-500">Agency</p>
                 <div className="relative">
-                  <p className="max-w-[140px] overflow-hidden text-ellipsis text-sm text-slate-700 dark:text-white/80 blur-[2px] select-none">
+                  <p className={`max-w-[140px] overflow-hidden text-ellipsis text-sm text-slate-700 dark:text-white/80 ${!isAdmin ? 'blur-[2px] select-none' : ''}`}>
                      {lead.agency}
                   </p>
-                  <p className="absolute inset-0 flex items-center justify-end text-[10px] font-semibold text-slate-400 dark:text-slate-500/80">
-                     LOCKED
-                  </p>
+                  {!isAdmin && (
+                    <p className="absolute inset-0 flex items-center justify-end text-[10px] font-semibold text-slate-400 dark:text-slate-500/80">
+                       LOCKED
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
