@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useOptimistic, useState, useTransition } from "react";
-import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { loadLeadsAction, logOutreachAction } from "./actions";
 import {
@@ -27,12 +26,10 @@ const TRACKED_SECTORS: SectorKey[] = ["Janitorial", "Construction", "Fencing", "
 
 interface LeadRadarClientProps {
   initialData: LeadsResponse;
+  isAdmin?: boolean;
 }
 
-export function LeadRadarClient({ initialData }: LeadRadarClientProps) {
-  const searchParams = useSearchParams();
-  const isAdmin = searchParams.get("admin") === "true";
-
+export function LeadRadarClient({ initialData, isAdmin = false }: LeadRadarClientProps) {
   const [selectedSectors, setSelectedSectors] = useState<SectorKey[]>(TRACKED_SECTORS);
   const [optimisticSectors, setOptimisticSectors] = useOptimistic(selectedSectors, (_, next: SectorKey[]) => next);
   const [activeLeadId, setActiveLeadId] = useState<string | null>(null);

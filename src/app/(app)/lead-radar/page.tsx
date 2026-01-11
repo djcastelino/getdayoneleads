@@ -1,8 +1,14 @@
 import { fetchLeads } from "@/lib/leads";
 import { LeadRadarClient } from "./lead-radar-client";
 
-export default async function LeadRadarPage() {
-  const initialData = await fetchLeads();
+interface PageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-  return <LeadRadarClient initialData={initialData} />;
+export default async function LeadRadarPage({ searchParams }: PageProps) {
+  const initialData = await fetchLeads();
+  const { admin } = await searchParams;
+  const isAdmin = admin === "true";
+
+  return <LeadRadarClient initialData={initialData} isAdmin={isAdmin} />;
 }
